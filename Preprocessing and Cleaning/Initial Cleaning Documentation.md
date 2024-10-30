@@ -40,7 +40,7 @@ values in essential columns. The cleaned dataset is then saved to a new file.
    - After all the cleaning steps are applied, the program saves the cleaned dataset to a specified file path. 
      The cleaned file is saved in CSV format, and the path to the saved file is printed at the end of the process.
 
-Pipeline Execution:
+## Pipeline Execution:
 - The file path to the dataset is specified in the 'file_path' variable, and the main pipeline function `main_pipeline` 
   is responsible for calling each of the cleaning steps in the correct order. The cleaned data is saved to a new file 
   after the entire cleaning process is complete.
