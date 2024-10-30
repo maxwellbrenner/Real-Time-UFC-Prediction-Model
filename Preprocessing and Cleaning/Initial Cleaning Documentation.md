@@ -1,8 +1,66 @@
 # MMA Event Masterlist Data Cleaning Pipeline
 
-## Overview
+"""
+Program Documentation: MMA Event Masterlist Data Cleaning Pipeline
 
-This program is designed to clean and preprocess an MMA fight dataset, specifically an event masterlist. It ensures that key columns in the dataset are standardized, critical missing values are handled appropriately, and the final dataset is prepared for analysis. This pipeline covers cleaning columns such as 'weightclass', 'winner', 'height', and 'reach', as well as dropping rows with missing values in essential columns. The cleaned dataset is saved to a new file for further analysis.
+This program is designed to clean and preprocess an MMA fight dataset, specifically an event masterlist. 
+It performs several cleaning steps to ensure that key columns in the dataset are standardized, any missing values 
+in critical fields are handled appropriately, and the final dataset is prepared for analysis. The pipeline focuses 
+on cleaning columns such as 'weightclass', 'winner', 'height', and 'reach', as well as dropping rows with missing 
+values in essential columns. The cleaned dataset is then saved to a new file.
+
+Functionality Overview:
+
+1. **Weightclass Cleaning**:
+   - The function `clean_weightclass` is responsible for standardizing the values in the 'weightclass' column. 
+     It maps various keywords in the 'weightclass' field (e.g., 'straw', 'fly', 'bantam', etc.) to a set of predefined, 
+     valid weight classes (e.g., 'Strawweight', 'Flyweight', 'Bantamweight', etc.). If no valid match is found, the 
+     value is set to `NaN`.
+
+2. **Winner Column Cleaning (No Contest and Draw Handling)**:
+   - The function `clean_no_contest_and_draws` processes the 'winner' column. It handles cases where the 'winner' value 
+     is 'N/A', indicating a No Contest or Draw scenario. If the method of victory includes 'Decision', the 'winner' is 
+     changed to 'Draw'. Otherwise, the value is updated to 'NC' (No Contest). This ensures that the 'winner' column 
+     reflects accurate outcomes for fights that did not have a clear winner.
+
+3. **Height and Reach Cleaning**:
+   - The function `clean_height_and_reach` removes double quotes from the 'reach' columns (e.g., 'X"') and converts both 
+     height and reach values to floats. This ensures that the data for fighters' height and reach are in a standardized 
+     format for easier analysis.
+
+4. **Dropping Rows with Missing Values**:
+   - The function `drop_nans` removes rows with missing values in critical columns. It focuses on essential fields such 
+     as 'event_name', 'event_date', 'winner', 'fighter_a_name', 'fighter_b_name', 'weightclass', 'method_of_victory', 
+     'round_of_victory', 'time_of_victory', 'time_format', and 'gender'. The program prints the number of rows dropped 
+     and identifies which columns caused the rows to be removed.
+
+5. **Diagnostics and Unique Value Checks**:
+   - The program prints unique values from both the 'weightclass' and 'method_of_victory' columns for diagnostic purposes, 
+     allowing the user to verify that the cleaning steps were applied correctly. If no rows with NaN values are found in 
+     'method_of_victory', the program will print a message indicating this.
+
+6. **Saving the Cleaned Dataset**:
+   - After all the cleaning steps are applied, the program saves the cleaned dataset to a specified file path. 
+     The cleaned file is saved in CSV format, and the path to the saved file is printed at the end of the process.
+
+Pipeline Execution:
+- The file path to the dataset is specified in the 'file_path' variable, and the main pipeline function `main_pipeline` 
+  is responsible for calling each of the cleaning steps in the correct order. The cleaned data is saved to a new file 
+  after the entire cleaning process is complete.
+
+Example Usage:
+1. Specify the path to the dataset in the `file_path` variable.
+2. Run the `main_pipeline(file_path)` function to clean and preprocess the data.
+3. Check the console output to see progress and diagnostic messages, including any rows dropped due to missing values 
+   and which columns caused the drops.
+4. The cleaned data will be saved to a new file, and the path will be printed to the console.
+
+Key Notes:
+- The handling of 'N/A' values in the 'winner' column assumes that 'N/A' signifies a No Contest or Draw.
+- Height and reach values are cleaned by removing any double quotes and converting the remaining values to floats for 
+  numerical analysis.
+
+"""
 
 ## Function Descriptions (Ordered by Execution in `main_pipeline()`)
 
